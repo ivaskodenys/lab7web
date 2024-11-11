@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Випадковий жарт</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Підключення jQuery -->
+</head>
+<body>
+    <h1>Випадковий жарт</h1>
+    <div id="joke"></div> <!-- Місце для відображення жарту -->
+    <button onclick="getRandomJoke()">Отримати жарт</button> <!-- Кнопка для отримання жарту -->
+
+    <script>
+        // Функція для завантаження жартів
+        function getJokes(callback) {
+            $.ajax({
+                url: 'jokes.txt', // Вказуємо шлях до файлу з жартами
+                dataType: 'text',  // Визначаємо формат даних
+                success: function(data) {
+                    // Розбиваємо текст на масив жартів
+                    callback(data.split('\n'));
+                },
+                error: function() {
+                    // Якщо виникне помилка, показуємо повідомлення
+                    alert('Не вдалося завантажити файл з жартами.');
+                }
+            });
+        }
+
+        // Функція для виведення випадкового жарту
+        function getRandomJoke() {
+            getJokes(function(jokes) {
+                // Вибір випадкового жарту
+                var randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+                // Виведення жарту на сторінку
+                document.getElementById('joke').innerText = randomJoke;
+            });
+        }
+    </script>
+</body>
+</html>
